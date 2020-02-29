@@ -278,6 +278,9 @@ need to set face attribute, such as foreground and background."
 (defvar snails-frame nil
   "The popup frame use for show search result.")
 
+(defvar snails-start-frame nil
+  "The frame before snails start.")
+
 (defvar snails-start-buffer nil
   "The buffer before snails start.")
 
@@ -377,6 +380,7 @@ or set it with any string you want."
           (setq snails-search-backends backends))
 
         ;; Record buffer before start snails.
+        (setq snails-start-frame (selected-frame))
         (setq snails-start-buffer (current-buffer))
         (setq snails-start-buffer-lines (line-number-at-pos (point-max)))
 
@@ -469,6 +473,7 @@ or set it with any string you want."
   ;; Delete frame first.
   (make-frame-invisible snails-frame)
   (setq snails-project-root-dir nil)
+  (setq snails-start-frame nil)
   (setq snails-start-buffer nil)
   (setq snails-select-line-overlay nil)
   (setq snails-need-render nil)
@@ -1026,7 +1031,7 @@ influence of C1 on the result."
 
           ;; Call backend do function.
           ;; Use `with-selected-frame' make sure command execute in root frame.
-          (with-selected-frame (car (last (frame-list)))
+          (with-selected-frame snails-start-frame
             (funcall do-func candidate))
           (throw 'backend-do nil)
           )))))
