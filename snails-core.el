@@ -473,7 +473,6 @@ or set it with any string you want."
   ;; Delete frame first.
   (make-frame-invisible snails-frame)
   (setq snails-project-root-dir nil)
-  (setq snails-start-frame nil)
   (setq snails-start-buffer nil)
   (setq snails-select-line-overlay nil)
   (setq snails-need-render nil)
